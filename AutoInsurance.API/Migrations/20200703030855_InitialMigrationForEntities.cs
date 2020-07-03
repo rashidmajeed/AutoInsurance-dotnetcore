@@ -48,7 +48,7 @@ namespace AutoInsurance.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Customer_Id = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
                     PolicyNumber = table.Column<string>(maxLength: 40, nullable: false),
                     Description = table.Column<string>(nullable: true),
                     PolicyPlan = table.Column<string>(nullable: false),
@@ -66,7 +66,7 @@ namespace AutoInsurance.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Policy_Id = table.Column<int>(nullable: false),
+                    PolicyId = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false),
                     Make = table.Column<string>(maxLength: 40, nullable: false),
                     Model = table.Column<int>(nullable: false),

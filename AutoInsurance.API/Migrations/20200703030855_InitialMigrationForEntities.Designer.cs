@@ -162,7 +162,7 @@ namespace AutoInsurance.API.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Customer_Id")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -227,7 +227,7 @@ namespace AutoInsurance.API.Migrations
                     b.Property<string>("NumberPlate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Policy_Id")
+                    b.Property<int>("PolicyId")
                         .HasColumnType("int");
 
                     b.Property<string>("RegisteredState")

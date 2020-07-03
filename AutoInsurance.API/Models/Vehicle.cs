@@ -8,7 +8,7 @@ namespace AutoInsurance.API.Models
     {
         [Key]
         public int Id { get; set; }
-        public int Policy_Id { get; set; }
+        public int PolicyId { get; set; }
         [Required]
         public int Year { get; set; }
         [Required]

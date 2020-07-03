@@ -9,7 +9,7 @@ namespace AutoInsurance.API.Models
     {
         [Key]
         public int Id { get; set; }
-        public int Customer_Id { get; set; }
+        public int CustomerId { get; set; }
         [Required]
         [StringLength(40)]
         public string PolicyNumber { get; set; }
