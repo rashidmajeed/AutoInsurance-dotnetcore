@@ -11,6 +11,7 @@ project.lock.json
 *.sln.docstates 
 # Build results 
 **/node_modules**/
+
 **/.workspace.xml
 [Dd]ebug/ 
 [Dd]ebugPublic/ 
@@ -27,3 +28,4 @@ msbuild.err
 msbuild.wrn 
 # Visual Studio 2015 
 .vs/
+appsetting.json
