@@ -26,10 +26,9 @@ namespace AutoInsurance.API.Models
 
         [ForeignKey("CoverageId")]
         public Coverage Coverage { get; set; }
-        
+
         [ForeignKey("VehicleId")]
         public Vehicle Vehicle { get; set; }
         public DateTime CreatedDate { get; set; }
-
     }
 }

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoInsurance.API.Filters;
 using AutoInsurance.API.Models;
+using AutoInsurance.API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,8 +23,11 @@ namespace AutoInsurance.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddDbContext<AutoInsuranceContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("AIContext")));
+            services.AddDbContext<AutoInsuranceContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("AIContext")));
+            services.AddAutoMapper(typeof(Startup));
+            services.AddTransient<IFileStorageService, InAppStorageService>();
+            services.AddHttpContextAccessor();
             services.AddControllers(options =>
              {
                  options.Filters.Add(typeof(GlobalExceptionFilter));
@@ -42,6 +41,7 @@ namespace AutoInsurance.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

@@ -1,32 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using AutoInsurance.API.Models;
 
-namespace AutoInsurance.API.Models
+namespace AutoInsurance.API.DTOs
 {
-    public class Policy
+    public class PolicyDTO
     {
-        [Key]
         public int Id { get; set; }
-
-         [Display(Name = "Customer")]
         public int CustomerId { get; set; }
-        [Required]
-        [StringLength(40)]
         public string PolicyNumber { get; set; }
         public string Description { get; set; }
-        [Required]
         public string PolicyPlan { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
         public DateTime CreatedDate { get; set; }
-
-        [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        public CustomerDTO Customer { get; set; }
         public IList<PolicyCoverage> PolicyCoverages { get; set; }
-
     }
 }
