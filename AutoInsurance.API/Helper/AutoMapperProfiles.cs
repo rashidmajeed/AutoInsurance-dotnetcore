@@ -9,18 +9,19 @@ namespace AutoInsurance.API.Helper
         public AutoMapperProfiles()
         {
             CreateMap<Customer, CustomerDTO>().ReverseMap();
-            CreateMap<CustomerDTO, Customer>()
+            CreateMap<CustomerCreationDTO, Customer>()
             .ForMember(x => x.Image, options => options.Ignore());
+            CreateMap<Customer, CustomerPatchDTO>().ReverseMap();
             CreateMap<Vehicle, VehicleDTO>().ReverseMap();
-            CreateMap<VehicleDTO, Vehicle>();
+            CreateMap<VehicleCreationDTO, Vehicle>();
             CreateMap<Policy, PolicyDTO>().ReverseMap();
-            CreateMap<PolicyDTO, Policy>();
+            CreateMap<PolicyCreationDTO, Policy>();
             CreateMap<Coverage, CoverageDTO>().ReverseMap();
-            CreateMap<CoverageDTO, Coverage>();
+            CreateMap<CoverageCreationDTO, Coverage>();
             CreateMap<Claim, ClaimDTO>().ReverseMap();
-            CreateMap<ClaimDTO, Claim>();
+            CreateMap<ClaimCreationDTO, Claim>();
             CreateMap<Payment, PaymentDTO>().ReverseMap();
-            CreateMap<PaymentDTO, Payment>();
+            CreateMap<PaymentCreationDTO, Payment>();
         }
 
     }

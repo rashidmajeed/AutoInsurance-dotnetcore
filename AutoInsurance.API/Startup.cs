@@ -41,9 +41,10 @@ namespace AutoInsurance.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

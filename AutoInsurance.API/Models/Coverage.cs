@@ -9,7 +9,7 @@ namespace AutoInsurance.API.Models
         [Required]
         [StringLength(200)]
         public string Name { get; set; }
-        public int Description { get; set; }
+        public string Description { get; set; }
         public bool isActiveCoverage { get; set; }
     }
 }

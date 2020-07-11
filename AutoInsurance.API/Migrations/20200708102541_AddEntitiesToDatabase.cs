@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoInsurance.API.Migrations
 {
-    public partial class InitialMigrationForEntities : Migration
+    public partial class AddEntitiesToDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,7 @@ namespace AutoInsurance.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
-                    Description = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     isActiveCoverage = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -43,24 +43,6 @@ namespace AutoInsurance.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Policies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(nullable: false),
-                    PolicyNumber = table.Column<string>(maxLength: 40, nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    PolicyPlan = table.Column<string>(nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Policies", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Vehicles",
                 columns: table => new
                 {
@@ -80,10 +62,34 @@ namespace AutoInsurance.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PolicyCoverage",
+                name: "Policies",
                 columns: table => new
                 {
-                    PolicyId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<int>(nullable: false),
+                    PolicyNumber = table.Column<string>(maxLength: 40, nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    PolicyPlan = table.Column<string>(nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Policies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Policies_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleCoverage",
+                columns: table => new
+                {
+                    VehicleId = table.Column<int>(nullable: false),
                     CoverageId = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false),
                     isActive = table.Column<bool>(nullable: false),
@@ -91,17 +97,17 @@ namespace AutoInsurance.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PolicyCoverage", x => new { x.CoverageId, x.PolicyId });
+                    table.PrimaryKey("PK_VehicleCoverage", x => new { x.CoverageId, x.VehicleId });
                     table.ForeignKey(
-                        name: "FK_PolicyCoverage_Coverages_CoverageId",
+                        name: "FK_VehicleCoverage_Coverages_CoverageId",
                         column: x => x.CoverageId,
                         principalTable: "Coverages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PolicyCoverage_Policies_PolicyId",
-                        column: x => x.PolicyId,
-                        principalTable: "Policies",
+                        name: "FK_VehicleCoverage_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -142,10 +148,10 @@ namespace AutoInsurance.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VehicleCoverage",
+                name: "PolicyCoverage",
                 columns: table => new
                 {
-                    VehicleId = table.Column<int>(nullable: false),
+                    PolicyId = table.Column<int>(nullable: false),
                     CoverageId = table.Column<int>(nullable: false),
                     Id = table.Column<int>(nullable: false),
                     isActive = table.Column<bool>(nullable: false),
@@ -153,17 +159,17 @@ namespace AutoInsurance.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VehicleCoverage", x => new { x.CoverageId, x.VehicleId });
+                    table.PrimaryKey("PK_PolicyCoverage", x => new { x.CoverageId, x.PolicyId });
                     table.ForeignKey(
-                        name: "FK_VehicleCoverage_Coverages_CoverageId",
+                        name: "FK_PolicyCoverage_Coverages_CoverageId",
                         column: x => x.CoverageId,
                         principalTable: "Coverages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VehicleCoverage_Vehicles_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicles",
+                        name: "FK_PolicyCoverage_Policies_PolicyId",
+                        column: x => x.PolicyId,
+                        principalTable: "Policies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,7 +199,7 @@ namespace AutoInsurance.API.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -222,6 +228,11 @@ namespace AutoInsurance.API.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Policies_CustomerId",
+                table: "Policies",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PolicyCoverage_PolicyId",
                 table: "PolicyCoverage",
                 column: "PolicyId");
@@ -247,9 +258,6 @@ namespace AutoInsurance.API.Migrations
                 name: "Claims");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
                 name: "Coverages");
 
             migrationBuilder.DropTable(
@@ -257,6 +265,9 @@ namespace AutoInsurance.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
         }
     }
 }

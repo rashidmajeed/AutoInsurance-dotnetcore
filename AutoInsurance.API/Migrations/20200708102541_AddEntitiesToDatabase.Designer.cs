@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoInsurance.API.Migrations
 {
     [DbContext(typeof(AutoInsuranceContext))]
-    [Migration("20200703030855_InitialMigrationForEntities")]
-    partial class InitialMigrationForEntities
+    [Migration("20200708102541_AddEntitiesToDatabase")]
+    partial class AddEntitiesToDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,8 +62,8 @@ namespace AutoInsurance.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Description")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -178,6 +178,8 @@ namespace AutoInsurance.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Policies");
                 });
@@ -296,6 +298,15 @@ namespace AutoInsurance.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AutoInsurance.API.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AutoInsurance.API.Models.Policy", b =>
+                {
                     b.HasOne("AutoInsurance.API.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
