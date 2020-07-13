@@ -35,7 +35,7 @@ namespace AutoInsurance.API.Migrations
                     Email = table.Column<string>(nullable: false),
                     phone = table.Column<string>(nullable: false),
                     Address = table.Column<string>(nullable: true),
-                    LicenseNumber = table.Column<int>(maxLength: 200, nullable: false)
+                    LicenseNumber = table.Column<string>(maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,19 +120,12 @@ namespace AutoInsurance.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PolicyId = table.Column<int>(nullable: false),
                     VehicleId = table.Column<int>(nullable: false),
-                    CoverageId = table.Column<int>(nullable: false),
                     Approval = table.Column<string>(maxLength: 200, nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Claims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Claims_Coverages_CoverageId",
-                        column: x => x.CoverageId,
-                        principalTable: "Coverages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Claims_Policies_PolicyId",
                         column: x => x.PolicyId,

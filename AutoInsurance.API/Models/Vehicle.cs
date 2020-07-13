@@ -21,7 +21,7 @@ namespace AutoInsurance.API.Models
         [StringLength(60)]
         public string RegisteredState { get; set; }
         public DateTime CreatedDate { get; set; }
-        public IList<VehicleCoverage> VehicleCoverages { get; set; }
+        public IList<VehicleCoverage> VehicleCoverage { get; set; }
 
     }
 }

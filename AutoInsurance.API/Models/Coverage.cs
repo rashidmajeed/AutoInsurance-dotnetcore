@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutoInsurance.API.Models
@@ -11,5 +12,9 @@ namespace AutoInsurance.API.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool isActiveCoverage { get; set; }
+        public IList<PolicyCoverage> PolicyCoverage { get; set; }
+        public IList<VehicleCoverage> VehicleCoverage { get; set; }
+
+
     }
 }

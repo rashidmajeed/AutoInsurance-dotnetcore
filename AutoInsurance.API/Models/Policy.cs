@@ -26,7 +26,7 @@ namespace AutoInsurance.API.Models
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
-        public IList<PolicyCoverage> PolicyCoverages { get; set; }
+        public IList<PolicyCoverage> PolicyCoverage { get; set; }
 
     }
 }

@@ -28,10 +28,12 @@ namespace AutoInsurance.API
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient<IFileStorageService, InAppStorageService>();
             services.AddHttpContextAccessor();
-            services.AddControllers(options =>
-             {
-                 options.Filters.Add(typeof(GlobalExceptionFilter));
-             }).AddXmlDataContractSerializerFormatters();
+                services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(GlobalExceptionFilter));
+            })
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddXmlDataContractSerializerFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

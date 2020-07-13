@@ -35,16 +35,20 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getPolicy")] // api/policies/example
-        public async Task<ActionResult<PolicyDTO>> Get(int Id)
+        public async Task<ActionResult<PolicyDetailsDTO>> Get(int Id)
         {
-            var policy = await context.Policies.FirstOrDefaultAsync(x => x.Id == Id);
+            var policy = await context.Policies
+            .Include(x => x.Customer)
+            .Include(x => x.PolicyCoverage)
+            .ThenInclude(x => x.Coverage)
+            .FirstOrDefaultAsync(x => x.Id == Id);
 
             if (policy == null)
             {
                 return NotFound();
             }
 
-            var policyDTO = mapper.Map<PolicyDTO>(policy);
+            var policyDTO = mapper.Map<PolicyDetailsDTO>(policy);
 
             return policyDTO;
         }

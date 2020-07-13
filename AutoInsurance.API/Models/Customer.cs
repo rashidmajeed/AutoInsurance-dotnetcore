@@ -25,7 +25,7 @@ namespace AutoInsurance.API.Models
 
         [Required]
         [StringLength(200)]
-        public int LicenseNumber { get; set; }
+        public string LicenseNumber { get; set; }
 
     }
 }

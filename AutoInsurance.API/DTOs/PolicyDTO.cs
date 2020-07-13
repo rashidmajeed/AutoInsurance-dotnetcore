@@ -14,6 +14,5 @@ namespace AutoInsurance.API.DTOs
         public decimal Amount { get; set; }
         public DateTime CreatedDate { get; set; }
         public CustomerDTO Customer { get; set; }
-        public IList<PolicyCoverage> PolicyCoverages { get; set; }
     }
 }

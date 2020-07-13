@@ -14,6 +14,5 @@ namespace AutoInsurance.API.DTOs
         public string NumberPlate { get; set; }
         public string RegisteredState { get; set; }
         public DateTime CreatedDate { get; set; }
-        public IList<VehicleCoverage> VehicleCoverages { get; set; }
     }
 }

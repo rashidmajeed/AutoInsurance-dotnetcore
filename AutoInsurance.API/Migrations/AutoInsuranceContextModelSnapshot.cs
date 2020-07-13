@@ -30,9 +30,6 @@ namespace AutoInsurance.API.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("CoverageId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -43,8 +40,6 @@ namespace AutoInsurance.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CoverageId");
 
                     b.HasIndex("PolicyId");
 

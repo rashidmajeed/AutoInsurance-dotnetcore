@@ -13,7 +13,7 @@ namespace AutoInsurance.API.DTOs
         public string Email { get; set; }
         public string phone { get; set; }
         public string Address { get; set; }
-        public int LicenseNumber { get; set; }
+        public string LicenseNumber { get; set; }
 
     }
 }
