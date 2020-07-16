@@ -2,6 +2,7 @@ using AutoMapper;
 using AutoInsurance.API.DTOs;
 using AutoInsurance.API.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace AutoInsurance.API.Helper
 {
@@ -26,10 +27,14 @@ namespace AutoInsurance.API.Helper
 
             CreateMap<Coverage, CoverageDTO>().ReverseMap();
             CreateMap<CoverageCreationDTO, Coverage>();
-            CreateMap<Claim, ClaimDTO>().ReverseMap();
-            CreateMap<ClaimCreationDTO, Claim>();
+            CreateMap<CustClaim, CustClaimDTO>().ReverseMap();
+            CreateMap<ClaimCreationDTO, CustClaim>();
             CreateMap<Payment, PaymentDTO>().ReverseMap();
             CreateMap<PaymentCreationDTO, Payment>();
+
+             CreateMap<IdentityUser, UserDTO>()
+                .ForMember(x => x.EmailAddress, options => options.MapFrom(x => x.Email))
+                .ForMember(x => x.UserId, options => options.MapFrom(x => x.Id));
         }
 
         private List<CoverageDTO> MapPolicyCoverage(Policy policy, PolicyDetailsDTO policyDetailsDTO)

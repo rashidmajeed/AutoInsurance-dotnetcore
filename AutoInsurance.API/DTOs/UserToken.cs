@@ -1,0 +1,11 @@
+using System;
+
+namespace AutoInsurance.API.DTOs
+{
+    public class UserToken
+    {
+        public string Token { get; set; }
+        public DateTime Expiration { get; set; }
+        
+    }
+}

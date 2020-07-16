@@ -19,7 +19,7 @@ namespace AutoInsurance.API.Models
         public string AccountNumber { get; set; }
 
         [ForeignKey("ClaimId")]
-        public Claim Claim { get; set; }
+        public CustClaim CustClaim { get; set; }
 
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }

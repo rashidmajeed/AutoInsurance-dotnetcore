@@ -3,15 +3,18 @@ using System.Threading.Tasks;
 using AutoInsurance.API.DTOs;
 using AutoInsurance.API.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AutoInsurance.API.Controllers
 {
-       [Route("api/coverages")]
+    [Route("api/coverages")]
     [ApiController]
-    public class CoveragesController: ControllerBase
+    public class CoveragesController : ControllerBase
     {
         private readonly ILogger<CoveragesController> logger;
         private readonly AutoInsuranceContext context;
@@ -27,6 +30,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet] // api/coverages
+        [EnableCors(PolicyName = "AllowAPIRequestIO")]
         public async Task<ActionResult<List<CoverageDTO>>> Get()
         {
             var coverages = await context.Coverages.AsNoTracking().ToListAsync();
@@ -50,6 +54,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Post([FromBody] CoverageCreationDTO coverageCreation)
         {
             var coverage = mapper.Map<Coverage>(coverageCreation);
@@ -61,6 +66,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+
         public async Task<ActionResult> Put(int id, [FromBody] CoverageCreationDTO coverageCreation)
         {
             var coverage = mapper.Map<Coverage>(coverageCreation);
@@ -71,6 +78,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var exists = await context.Coverages.AnyAsync(x => x.Id == id);
@@ -85,5 +93,5 @@ namespace AutoInsurance.API.Controllers
             return NoContent();
         }
     }
-} 
-    
+}
+

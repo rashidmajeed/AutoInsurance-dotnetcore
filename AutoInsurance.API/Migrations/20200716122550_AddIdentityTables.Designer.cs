@@ -4,14 +4,16 @@ using AutoInsurance.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AutoInsurance.API.Migrations
 {
     [DbContext(typeof(AutoInsuranceContext))]
-    partial class AutoInsuranceContextModelSnapshot : ModelSnapshot
+    [Migration("20200716122550_AddIdentityTables")]
+    partial class AddIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,30 +21,7 @@ namespace AutoInsurance.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AutoInsurance.API.Models.Coverage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("isActiveCoverage")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Coverages");
-                });
-
-            modelBuilder.Entity("AutoInsurance.API.Models.CustClaim", b =>
+            modelBuilder.Entity("AutoInsurance.API.Models.Claim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +47,30 @@ namespace AutoInsurance.API.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("CustClaims");
+                    b.ToTable("Claims");
+                });
+
+            modelBuilder.Entity("AutoInsurance.API.Models.Coverage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("isActiveCoverage")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coverages");
                 });
 
             modelBuilder.Entity("AutoInsurance.API.Models.Customer", b =>
@@ -459,7 +461,7 @@ namespace AutoInsurance.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AutoInsurance.API.Models.CustClaim", b =>
+            modelBuilder.Entity("AutoInsurance.API.Models.Claim", b =>
                 {
                     b.HasOne("AutoInsurance.API.Models.Policy", "Policy")
                         .WithMany()
@@ -476,7 +478,7 @@ namespace AutoInsurance.API.Migrations
 
             modelBuilder.Entity("AutoInsurance.API.Models.Payment", b =>
                 {
-                    b.HasOne("AutoInsurance.API.Models.CustClaim", "CustClaim")
+                    b.HasOne("AutoInsurance.API.Models.Claim", "Claim")
                         .WithMany()
                         .HasForeignKey("ClaimId")
                         .OnDelete(DeleteBehavior.Cascade)

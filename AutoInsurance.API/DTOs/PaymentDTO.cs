@@ -9,7 +9,7 @@ namespace AutoInsurance.API.DTOs
         public int ClaimId { get; set; }
         public int CustomerId { get; set; }
         public string AccountNumber { get; set; }
-        public Claim Claim { get; set; }
+        public CustClaim CustClaim { get; set; }
         public CustomerDTO Customer { get; set; }
         public DateTime CreatedDate { get; set; }
     }

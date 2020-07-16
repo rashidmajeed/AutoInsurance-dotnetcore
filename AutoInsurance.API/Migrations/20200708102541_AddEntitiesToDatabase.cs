@@ -113,7 +113,7 @@ namespace AutoInsurance.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Claims",
+                name: "CustClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -125,15 +125,15 @@ namespace AutoInsurance.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Claims", x => x.Id);
+                    table.PrimaryKey("PK_CustClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Claims_Policies_PolicyId",
+                        name: "FK_CustClaims_Policies_PolicyId",
                         column: x => x.PolicyId,
                         principalTable: "Policies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Claims_Vehicles_VehicleId",
+                        name: "FK_CustClaims_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
@@ -182,9 +182,9 @@ namespace AutoInsurance.API.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Claims_ClaimId",
+                        name: "FK_Payments_CustClaims_CustClaimId",
                         column: x => x.ClaimId,
-                        principalTable: "Claims",
+                        principalTable: "CustClaims",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -196,22 +196,17 @@ namespace AutoInsurance.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Claims_CoverageId",
-                table: "Claims",
-                column: "CoverageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Claims_PolicyId",
-                table: "Claims",
+                name: "IX_CustClaims_PolicyId",
+                table: "CustClaims",
                 column: "PolicyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Claims_VehicleId",
+                name: "IX_CustClaims_VehicleId",
                 table: "Claims",
                 column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_ClaimId",
+                name: "IX_Payments_CustClaimId",
                 table: "Payments",
                 column: "ClaimId");
 
@@ -248,7 +243,7 @@ namespace AutoInsurance.API.Migrations
                 name: "VehicleCoverage");
 
             migrationBuilder.DropTable(
-                name: "Claims");
+                name: "CustClaims");
 
             migrationBuilder.DropTable(
                 name: "Coverages");

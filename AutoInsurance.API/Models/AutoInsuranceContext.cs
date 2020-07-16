@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AutoInsurance.API.Models
 {
-    public class AutoInsuranceContext : DbContext
+    public class AutoInsuranceContext : IdentityDbContext
     {
         public AutoInsuranceContext(DbContextOptions<AutoInsuranceContext> options) : base(options)
         {
@@ -21,7 +22,7 @@ namespace AutoInsurance.API.Models
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Policy> Policies { get; set; }
         public DbSet<Coverage> Coverages { get; set; }
-        public DbSet<Claim> Claims { get; set; }
+        public DbSet<CustClaim> CustClaims { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PolicyCoverage> PolicyCoverage { get; set; }
         public DbSet<VehicleCoverage> VehicleCoverage { get; set; }

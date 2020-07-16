@@ -4,6 +4,9 @@ using AutoInsurance.API.Helper;
 using AutoInsurance.API.Models;
 using AutoInsurance.API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +37,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
+        [EnableCors(PolicyName = "AllowAPIRequestIO")]
         public async Task<ActionResult<List<CustomerDTO>>> Get([FromQuery] PaginationDTO pagination)
         {
             var queryable = context.Customers.AsQueryable();
@@ -43,6 +47,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "getCustomer")]
+        [EnableCors(PolicyName = "AllowAPIRequestIO")]
         public async Task<ActionResult<CustomerDTO>> Get(int id)
         {
             var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == id);
@@ -56,6 +61,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Post([FromForm] CustomerCreationDTO customerCreationDTO)
         {
             var customer = mapper.Map<Customer>(customerCreationDTO);
@@ -80,6 +86,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Put(int id, [FromForm] CustomerCreationDTO customerCreationDTO)
         {
             var customerDB = await context.Customers.FirstOrDefaultAsync(x => x.Id == id);
@@ -107,6 +114,7 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<CustomerPatchDTO> patchDocument)
         {
             if (patchDocument == null)

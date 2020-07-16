@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using AutoInsurance.API.DTOs;
 using AutoInsurance.API.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,6 +29,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet] // api/payments
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<List<PaymentDTO>>> Get()
         {
             var payments = await context.Payments.AsNoTracking().ToListAsync();
@@ -35,6 +38,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getPayments")] // api/payments/example
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+
         public async Task<ActionResult<PaymentDTO>> Get(int Id)
         {
             var payment = await context.Payments.FirstOrDefaultAsync(x => x.Id == Id);
@@ -50,6 +55,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+
         public async Task<ActionResult> Post([FromBody] PaymentCreationDTO paymentCreation)
         {
             var payment = mapper.Map<Payment>(paymentCreation);
@@ -61,6 +68,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Put(int id, [FromBody] PaymentCreationDTO paymentCreation)
         {
             var payment = mapper.Map<Payment>(paymentCreation);
@@ -71,6 +79,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+
         public async Task<ActionResult> Delete(int id)
         {
             var exists = await context.Payments.AnyAsync(x => x.Id == id);

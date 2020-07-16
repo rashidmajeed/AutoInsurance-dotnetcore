@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoInsurance.API.Models
 {
-    public class Claim
+    public class CustClaim
     {
         [Key]
         public int Id { get; set; }

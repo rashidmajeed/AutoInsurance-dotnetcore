@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using AutoInsurance.API.DTOs;
 using AutoInsurance.API.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,6 +30,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet] // api/policies
+        [EnableCors(PolicyName = "AllowAPIRequestIO")]
         public async Task<ActionResult<List<PolicyDTO>>> Get()
         {
             var policies = await context.Policies.AsNoTracking().ToListAsync();
@@ -54,6 +58,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+
         public async Task<ActionResult> Post([FromBody] PolicyCreationDTO policyCreation)
         {
             var policy = mapper.Map<Policy>(policyCreation);
@@ -65,6 +71,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Put(int id, [FromBody] PolicyCreationDTO policyCreation)
         {
             var policy = mapper.Map<Policy>(policyCreation);
@@ -75,6 +82,7 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var exists = await context.Policies.AnyAsync(x => x.Id == id);
