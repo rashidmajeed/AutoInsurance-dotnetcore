@@ -39,6 +39,9 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getVehicle")] // api/vehicles/example
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(VehicleDTO), 200)]
+
         public async Task<ActionResult<VehicleDetailsDTO>> Get(int Id)
         {
             var vehicle = await context.Vehicles
@@ -79,6 +82,12 @@ namespace AutoInsurance.API.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
+
+         /// <summary>
+        /// Delete a vehicle
+        /// </summary>
+        /// <param name="id">Id of the vehicle to delete</param>
+        /// <returns></returns>
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

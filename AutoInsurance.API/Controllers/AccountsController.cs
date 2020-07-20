@@ -43,7 +43,9 @@ namespace MoviesAPI.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost("Create")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(UserToken), 200)]
+        [HttpPost("Create", Name = "createUser")]
         public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
         {
             var user = new IdentityUser { UserName = model.EmailAddress, Email = model.EmailAddress };

@@ -39,6 +39,9 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getClaims")] // api/claims/example
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(CustClaimDTO), 200)]
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
 
         public async Task<ActionResult<CustClaimDTO>> Get(int Id)
@@ -80,6 +83,11 @@ namespace AutoInsurance.API.Controllers
             return NoContent();
         }
 
+         /// <summary>
+        /// Delete a claim
+        /// </summary>
+        /// <param name="id">Id of the claim to delete</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
 

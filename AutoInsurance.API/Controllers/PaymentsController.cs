@@ -38,6 +38,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getPayments")] // api/payments/example
+         [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(PaymentDTO), 200)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
 
         public async Task<ActionResult<PaymentDTO>> Get(int Id)
@@ -77,6 +79,12 @@ namespace AutoInsurance.API.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
+
+         /// <summary>
+        /// Delete a payment
+        /// </summary>
+        /// <param name="id">Id of the payment to delete</param>
+        /// <returns></returns>
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

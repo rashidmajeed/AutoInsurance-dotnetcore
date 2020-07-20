@@ -39,6 +39,8 @@ namespace AutoInsurance.API.Controllers
         }
 
         [HttpGet("{Id:int}", Name = "getCoverage")] // api/coverages/example
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(CoverageDTO), 200)]
         public async Task<ActionResult<CoverageDTO>> Get(int Id)
         {
             var coverage = await context.Coverages.FirstOrDefaultAsync(x => x.Id == Id);
@@ -76,6 +78,12 @@ namespace AutoInsurance.API.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
+
+         /// <summary>
+        /// Delete a coverage
+        /// </summary>
+        /// <param name="id">Id of the coverage to delete</param>
+        /// <returns></returns>
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]

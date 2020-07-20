@@ -48,6 +48,8 @@ namespace MoviesAPI.Controllers
 
         [HttpGet("{id}", Name = "getCustomer")]
         [EnableCors(PolicyName = "AllowAPIRequestIO")]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(CustomerDTO), 200)]
         public async Task<ActionResult<CustomerDTO>> Get(int id)
         {
             var customer = await context.Customers.FirstOrDefaultAsync(x => x.Id == id);
@@ -146,6 +148,12 @@ namespace MoviesAPI.Controllers
 
             return NoContent();
         }
+
+         /// <summary>
+        /// Delete a customer
+        /// </summary>
+        /// <param name="id">Id of the customer to delete</param>
+        /// <returns></returns>
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
